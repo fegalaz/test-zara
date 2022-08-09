@@ -1,22 +1,25 @@
-# test-zara
+<a href="https://zara.com/"><img src="https://www.revistagq.com/moda/articulos/nuevo-logo-de-zara/32991" width="180px" align="right" /></a>
 
-Overview
-This component get data from a memory database (H2).
+# Test Zara
 
-Development
-This api is based in Java, Spring-boot, lombok,Mapstruct,JPA.
+## Tecnologías ocupadas en el desarrollo:
 
-Required software:
+* Spring Framework
+* Spring WEB
+* Lombok
+* Maven
+* Java 8
+* JUnit 5
+* Spock & Groovy
 
-Java 8
-Maven 3.2.0
-git version 2.15.0 (git --version)
-Lombok
-JUnit 5
-Mockito
-JACOCO
 
-Testing
-Run test in class with groovy and spock.
+## APIs expuestas por el microservicios
 
-Attached the collection Postman with the test for prices.
+| Type Method   | Method     | URL                              |
+| ------------- | ---------- |----------------------------------|
+| GET           | getPrices()| localhost:8080/api/v1/getPrices |
+| GET           | getPricesWithFilter() | localhost:8080/api/v1/getPricesWithFilter |
+
+
+**Autor**
+***Felipe Galaz***
