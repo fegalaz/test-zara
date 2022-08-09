@@ -9,9 +9,8 @@ class PricesRepositoryTest extends Specification{
 
     PricesRepository pricesRepository = Mock()
 
-    def "Get prices from DB : The prices exists"() {
+    def "Get prices from DB : The prices no exists"() {
         given:
-        //def dt = LocalDateTime.now()
         def productId = 35455
         def brandId = 1
 
