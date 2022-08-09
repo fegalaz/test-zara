@@ -14,20 +14,21 @@ Proyecto cuya finalidad es consumir una API RESTful para la obtencion de una lis
 * Spock & Groovy
 
 ## DataBase
-La base de datos se crea al momento de correr la aplicacion , la estructura tambien se crea al momento de correr la aplicacion , la estructura la cual va a ser utilizada por la api de obtencion de lista de precios en la siguiente ruta:
+
+La base de datos se crea al momento de correr la aplicacion , la estructura tambien se crea al momento de correr la aplicacion , la estructura la cual va a ser utilizada por la api de obtencion de lista de precios es la siguiente:
 
 `DROP TABLE IF EXISTS brands;
 CREATE TABLE brands(
 id INTEGER AUTO_INCREMENT,
 brand_name VARCHAR(4),
 PRIMARY KEY(id)
-);
+);`
 
-INSERT INTO brands (brand_name) VALUES ('ZARA');
-INSERT INTO brands (brand_name) VALUES ('NIKE');
+`INSERT INTO brands (brand_name) VALUES ('ZARA');
+INSERT INTO brands (brand_name) VALUES ('NIKE');`
 
 
-DROP TABLE IF EXISTS prices;
+`DROP TABLE IF EXISTS prices;
 CREATE TABLE prices(
 id INTEGER AUTO_INCREMENT,
 brand_id INTEGER,
@@ -40,9 +41,9 @@ price DECIMAL,
 curr VARCHAR,
 PRIMARY KEY(id),
 FOREIGN KEY(brand_id) REFERENCES brands(id)
-);
+);`
 
-INSERT INTO prices (brand_id,start_date,end_date,price_list,product_id,priority,price,curr) VALUES (1, '2020-06-14 00:00:00','2020-12-31 23:59:59',1,35455,0,35.50,'EUR');
+`INSERT INTO prices (brand_id,start_date,end_date,price_list,product_id,priority,price,curr) VALUES (1, '2020-06-14 00:00:00','2020-12-31 23:59:59',1,35455,0,35.50,'EUR');
 INSERT INTO prices (brand_id,start_date,end_date,price_list,product_id,priority,price,curr) VALUES (1, '2020-06-14 15:00:00','2020-06-14 18:30:00',2,35455,1,25.45,'EUR');
 INSERT INTO prices (brand_id,start_date,end_date,price_list,product_id,priority,price,curr) VALUES (1, '2020-06-15 00:00:00','2020-06-15 11:00:00',3,35455,1,30.50,'EUR');
 INSERT INTO prices (brand_id,start_date,end_date,price_list,product_id,priority,price,curr) VALUES (1, '2020-06-15 16:00:00','2020-12-31 23:59:59',4,35455,1,38.95,'EUR');
