@@ -8,6 +8,7 @@ import com.inditex.zara.infrastructure.mappers.PriceMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -32,6 +33,7 @@ class PriceRepositoryAdapterUnitTest {
     @Mock
     private PriceMapper priceMapper;
 
+    @InjectMocks
     private PriceRepositoryAdapter adapter;
 
     @BeforeEach
@@ -97,86 +99,4 @@ class PriceRepositoryAdapterUnitTest {
         assertEquals(1, result.size());
         assertEquals(price, result.getFirst());
     }
-
-
-//    @Test
-//    void testFindFinalPrice_ReturnsEmpty() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        when(jpaRepository.findFinalPriceWithJpql(brandId, productId, date)).thenReturn(Optional.empty());
-//
-//        Optional<Price> result = adapter.findFinalPrice(brandId, productId, date);
-//
-//        assertFalse(result.isPresent());
-//        verify(jpaRepository).findFinalPriceWithJpql(brandId, productId, date);
-//        verify(priceMapper, never()).toDomain(any());
-//    }
-//
-//    @Test
-//    void testFindFinalPriceWithConvention_ReturnsMappedPrices() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        Object entity = new Object();
-//        Price price = new Price();
-//
-//        when(jpaRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date)).thenReturn(List.of(entity));
-//        when(priceMapper.toDomain(entity)).thenReturn(price);
-//
-//        List<Price> result = adapter.findFinalPriceWithConvention(brandId, productId, date);
-//
-//        assertEquals(1, result.size());
-//        assertEquals(price, result.get(0));
-//        verify(jpaRepository).findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date);
-//        verify(priceMapper).toDomain(entity);
-//    }
-//
-//    @Test
-//    void testFindFinalPriceWithConvention_ReturnsEmptyList() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        when(jpaRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date)).thenReturn(Collections.emptyList());
-//
-//        List<Price> result = adapter.findFinalPriceWithConvention(brandId, productId, date);
-//
-//        assertTrue(result.isEmpty());
-//        verify(jpaRepository).findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date);
-//        verify(priceMapper, never()).toDomain(any());
-//    }
-//
-//    @Test
-//    void testFindAll_ReturnsMappedPrices() {
-//        Object entity = new Object();
-//        Price price = new Price();
-//
-//        when(jpaRepository.findAll()).thenReturn(List.of(entity));
-//        when(priceMapper.toDomain(entity)).thenReturn(price);
-//
-//        List<Price> result = adapter.findAll();
-//
-//        assertEquals(1, result.size());
-//        assertEquals(price, result.get(0));
-//        verify(jpaRepository).findAll();
-//        verify(priceMapper).toDomain(entity);
-//    }
-//
-//    @Test
-//    void testFindAll_ReturnsEmptyList() {
-//        when(jpaRepository.findAll()).thenReturn(Collections.emptyList());
-//
-//        List<Price> result = adapter.findAll();
-//
-//        assertTrue(result.isEmpty());
-//        verify(jpaRepository).findAll();
-//        verify(priceMapper, never()).toDomain(any());
-//    }
 }
