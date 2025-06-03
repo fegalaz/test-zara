@@ -34,4 +34,6 @@ public class PriceFixtures {
                         .build()
         );
     }
+
+    public LocalDateTime now = LocalDateTime.now();
 }

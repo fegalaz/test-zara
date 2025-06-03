@@ -149,6 +149,7 @@
 							<excludes>
 								<exclude>com/inditex/zara/infrastructure/exceptions/**</exclude>
 								<exclude>com/inditex/zara/TestZaraApplication.class</exclude>
+								<exclude>com/inditex/zara/util/UtilTest.class</exclude>
 							</excludes>
 						</configuration>
 					</execution>
