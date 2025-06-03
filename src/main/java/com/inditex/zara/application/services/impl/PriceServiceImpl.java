@@ -1,34 +1,35 @@
 package com.inditex.zara.application.services.impl;
 
 import com.inditex.zara.application.services.PriceService;
+import com.inditex.zara.domain.exceptions.PriceNotFoundException;
 import com.inditex.zara.domain.model.Price;
-import com.inditex.zara.infrastructure.exceptions.PriceNotFoundException;
+import com.inditex.zara.domain.ports.in.PriceInputPort;
+import com.inditex.zara.domain.services.PriceDomainService;
 import com.inditex.zara.domain.ports.out.PriceOutputPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class PriceServiceImpl implements PriceService {
+public class PriceServiceImpl implements PriceService, PriceInputPort {
 
-    private final PriceOutputPort priceOutputPort; // Usa el puerto
+    private final PriceOutputPort priceOutputPort;
+    private final PriceDomainService priceDomainService;
 
     @Override
     public Price getFinalPrice(LocalDateTime date, Long productId, Integer brandId) {
         return priceOutputPort.findFinalPrice(brandId, productId, date)
-                .orElseThrow(() -> new PriceNotFoundException("Price not found"));
+                .orElseThrow(() -> new PriceNotFoundException("Price not found for the given criteria"));
     }
 
     @Override
     public Price getFinalPriceWithConvention(LocalDateTime date, Long productId, Integer brandId) {
-        return priceOutputPort.findFinalPriceWithConvention(brandId, productId, date)
-                .stream()
-                .max(Comparator.comparingInt(Price::priority))
-                .orElseThrow(() -> new PriceNotFoundException("Price not found"));
+        List<Price> applicablePrices = priceOutputPort.findFinalPriceWithConvention(brandId, productId, date);
+
+        return priceDomainService.selectHighestPriorityPrice(applicablePrices);
     }
 
     @Override

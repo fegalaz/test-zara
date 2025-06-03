@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 class PriceRepositoryAdapterUnitTest {
 
     @Mock
-    private DataPriceRepository jpaRepository;
+    private DataPriceRepository dataPriceRepository;
 
     @Mock
     private PriceMapper priceMapper;
@@ -36,7 +36,7 @@ class PriceRepositoryAdapterUnitTest {
 
     @BeforeEach
     void setUp() {
-        adapter = new PriceRepositoryAdapter(jpaRepository, priceMapper);
+        adapter = new PriceRepositoryAdapter(dataPriceRepository, priceMapper);
     }
 
     @Test
@@ -50,14 +50,14 @@ class PriceRepositoryAdapterUnitTest {
         Optional<PriceEntity> entity = Optional.of(new PriceEntity());
         Price price = new Price(1, startDate, endDate, 2, 35455L, 0, new BigDecimal("25.45"), "EUR");
 
-        when(jpaRepository.findFinalPriceWithJpql(brandId, productId, date)).thenReturn(entity);
+        when(dataPriceRepository.findFinalPriceWithJpql(brandId, productId, date)).thenReturn(entity);
         when(priceMapper.toDomain(any(PriceEntity.class))).thenReturn(price);
 
         Optional<Price> result = adapter.findFinalPrice(brandId, productId, date);
 
         assertTrue(result.isPresent());
         assertEquals(price, result.get());
-        verify(jpaRepository).findFinalPriceWithJpql(brandId, productId, date);
+        verify(dataPriceRepository).findFinalPriceWithJpql(brandId, productId, date);
     }
 
     @Test
@@ -71,15 +71,14 @@ class PriceRepositoryAdapterUnitTest {
 
         Price expectedPrice = new Price(1, date, date, 2, 35455L, 0, new BigDecimal("25.45"), "EUR");
 
-        when(jpaRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-                brandId, productId, date, date)).thenReturn(entities);
-
+        when(dataPriceRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(brandId, productId, date,date)).thenReturn(entities);
         when(priceMapper.toDomain(entity)).thenReturn(expectedPrice);
 
         List<Price> result = adapter.findFinalPriceWithConvention(brandId, productId, date);
 
         assertEquals(1, result.size());
         assertEquals(expectedPrice, result.getFirst());
+        verify(dataPriceRepository).findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(brandId, productId, date,date);
     }
 
     @Test
@@ -89,94 +88,13 @@ class PriceRepositoryAdapterUnitTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 6, 14, 18, 30, 0);
         Price price = new Price(1, startDate, endDate, 2, 35455L, 0, new BigDecimal("25.45"), "EUR");
 
-        when(jpaRepository.findAll()).thenReturn(List.of(entity));
+        when(dataPriceRepository.findAll()).thenReturn(List.of(entity));
         when(priceMapper.toDomain(entity)).thenReturn(price);
 
         List<Price> result = adapter.findAll();
 
         assertEquals(1, result.size());
         assertEquals(price, result.getFirst());
+        verify(dataPriceRepository).findAll();
     }
-
-
-//    @Test
-//    void testFindFinalPrice_ReturnsEmpty() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        when(jpaRepository.findFinalPriceWithJpql(brandId, productId, date)).thenReturn(Optional.empty());
-//
-//        Optional<Price> result = adapter.findFinalPrice(brandId, productId, date);
-//
-//        assertFalse(result.isPresent());
-//        verify(jpaRepository).findFinalPriceWithJpql(brandId, productId, date);
-//        verify(priceMapper, never()).toDomain(any());
-//    }
-//
-//    @Test
-//    void testFindFinalPriceWithConvention_ReturnsMappedPrices() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        Object entity = new Object();
-//        Price price = new Price();
-//
-//        when(jpaRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date)).thenReturn(List.of(entity));
-//        when(priceMapper.toDomain(entity)).thenReturn(price);
-//
-//        List<Price> result = adapter.findFinalPriceWithConvention(brandId, productId, date);
-//
-//        assertEquals(1, result.size());
-//        assertEquals(price, result.get(0));
-//        verify(jpaRepository).findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date);
-//        verify(priceMapper).toDomain(entity);
-//    }
-//
-//    @Test
-//    void testFindFinalPriceWithConvention_ReturnsEmptyList() {
-//        Integer brandId = 1;
-//        Long productId = 2L;
-//        LocalDateTime date = LocalDateTime.now();
-//
-//        when(jpaRepository.findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date)).thenReturn(Collections.emptyList());
-//
-//        List<Price> result = adapter.findFinalPriceWithConvention(brandId, productId, date);
-//
-//        assertTrue(result.isEmpty());
-//        verify(jpaRepository).findByBrandIdAndProductIdAndStartDateLessThanEqualAndEndDateGreaterThanEqual(
-//                brandId, productId, date, date);
-//        verify(priceMapper, never()).toDomain(any());
-//    }
-//
-//    @Test
-//    void testFindAll_ReturnsMappedPrices() {
-//        Object entity = new Object();
-//        Price price = new Price();
-//
-//        when(jpaRepository.findAll()).thenReturn(List.of(entity));
-//        when(priceMapper.toDomain(entity)).thenReturn(price);
-//
-//        List<Price> result = adapter.findAll();
-//
-//        assertEquals(1, result.size());
-//        assertEquals(price, result.get(0));
-//        verify(jpaRepository).findAll();
-//        verify(priceMapper).toDomain(entity);
-//    }
-//
-//    @Test
-//    void testFindAll_ReturnsEmptyList() {
-//        when(jpaRepository.findAll()).thenReturn(Collections.emptyList());
-//
-//        List<Price> result = adapter.findAll();
-//
-//        assertTrue(result.isEmpty());
-//        verify(jpaRepository).findAll();
-//        verify(priceMapper, never()).toDomain(any());
-//    }
 }

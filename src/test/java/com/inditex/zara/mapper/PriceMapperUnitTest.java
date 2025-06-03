@@ -1,9 +1,9 @@
 package com.inditex.zara.mapper;
 
-import com.inditex.zara.fixtures.PriceFixtures;
-import com.inditex.zara.infrastructure.dto.PriceResponse;
 import com.inditex.zara.domain.model.Price;
+import com.inditex.zara.fixtures.PriceFixtures;
 import com.inditex.zara.infrastructure.adapters.output.persistence.jpa.entity.PriceEntity;
+import com.inditex.zara.infrastructure.dto.PriceResponse;
 import com.inditex.zara.infrastructure.mappers.PriceMapper;
 import com.inditex.zara.infrastructure.mappers.PriceMapperImpl;
 import org.junit.jupiter.api.Test;
