@@ -17,6 +17,6 @@ public class PriceDomainService {
 
         return prices.stream()
                 .max(Comparator.comparingInt(Price::priority))
-                .orElseThrow(() -> new PriceNotFoundException("Unable to determine highest priority price"));
+                .orElseThrow();
     }
 }
