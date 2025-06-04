@@ -203,9 +203,7 @@ src/main/java/com/inditex/zara/
 │   ├── configs/                          # Configuraciones técnicas
 │   │   ├── WebConfig.java            <<JSON>> (Serialización personalizada para la fechas)
 │   │   └── SwaggerConfig.java        <<API Docs>> (UI interactiva)
-│   │
 │   ├── dto/PriceResponse.java            <<DTO>> (Estructura de respuesta API)
-│   │
 │   ├── exceptions/                       # Manejo de errores
 │   │   ├── ControllerExceptionHandler.java <<Global>> (Captura excepciones HTTP)
 │   │   ├── ErrorMessage.java             <<DTO>> (Formato de errores)
