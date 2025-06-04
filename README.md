@@ -136,7 +136,7 @@ INSERT INTO prices (brand_id, start_date, end_date, price_list, product_id, prio
 
 **Ejemplo**:
 ```bash
-GET localhost:8080/api/v1/rest/prices/final-price?date=2020-06-14-15.00.00&productId=35455&brandId=1
+GET localhost:8080/api/v1/rest/prices/final-price?date=2020-06-14 15:00:00&productId=35455&brandId=1
 ```
 
 ✅ Ejemplo de respuesta exitosa (200 OK):
@@ -183,8 +183,12 @@ src/main/java/com/inditex/zara/
 │   ├── model/
 │   │   └── Price.java                    <<Entidad>> (Objeto de negocio con lógica central)
 │   └── ports/
-│       ├── in/                           <<Puertos de entrada>> (Interfaces para drivers)
+│       ├── in/PriceInputPort.java        <<Puertos de entrada>> (Interfaces para drivers)
 │       └── out/PriceOutputPort.java      <<Puerto de salida>> (Interfaz para persistencia)
+│   ├── exceptions/
+│   │   └── PriceNotFoundException.java   <<Exceptions>> (Manejo de errores específicos del dominio)
+│   └── services/
+│       ├── PriceDomainService.java       <<Servicio de dominio>> (Lógica central)
 │
 ├── infrastructure/                       # Capa de infraestructura (detalles técnicos)
 │   ├── adapters/
@@ -196,13 +200,10 @@ src/main/java/com/inditex/zara/
 │   │           ├── entity/PriceEntity.java       <<JPA>> (Modelo de base de datos)
 │   │           ├── repository/DataPriceRepository.java  <<JPA Repository>> (Operaciones CRUD)
 │   │           └── PriceRepositoryAdapter.java   <<Adaptador>> (Convierte Dominio↔JPA)
-│   │
 │   ├── configs/                          # Configuraciones técnicas
-│   │   ├── JacksonConfig.java            <<JSON>> (Serialización personalizada)
-│   │   └── SwaggerConfig.java            <<API Docs>> (UI interactiva)
-│   │
+│   │   ├── WebConfig.java            <<JSON>> (Serialización personalizada para la fechas)
+│   │   └── SwaggerConfig.java        <<API Docs>> (UI interactiva)
 │   ├── dto/PriceResponse.java            <<DTO>> (Estructura de respuesta API)
-│   │
 │   ├── exceptions/                       # Manejo de errores
 │   │   ├── ControllerExceptionHandler.java <<Global>> (Captura excepciones HTTP)
 │   │   ├── ErrorMessage.java             <<DTO>> (Formato de errores)
